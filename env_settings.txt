@@ -1,5 +1,0 @@
-setx OPEN_AI_KEY 030143d46ffc409ea8b4f3e2600d85c5
-setx OPEN_AI_ENDPOINT https://randysopenaiwestus.openai.azure.com/
-setx OPEN_AI_DEPLOYMENT_NAME gpt-4-turbo
-setx SPEECH_KEY df8a26895fed4b399f613d2d6d172377
-setx SPEECH_REGION westus2
