@@ -106,7 +106,6 @@ def ask_openai(prompt):
         }
     ]
 
-
     messages=[{"role": "user", "content": prompt}]
     response = client.chat.completions.create(model=deployment_id, max_tokens=200, stream=False, messages=messages,
     tools=tools,
@@ -146,10 +145,10 @@ def ask_openai(prompt):
                     "content": function_response,
                 }
             )  # extend conversation with function response, 400 Error is here
-    else:
-        collected_messages.append(response_message)
+    #else:
+        #collected_messages.append(response_message)
         #speak the response message
-        speech_synthesizer.speak_text(response_message.content)
+        #speech_synthesizer.speak_text(response_message.content)
 
 # Continuously listens for speech input to recognize and send as text to Azure OpenAI
 def chat_with_open_ai():
