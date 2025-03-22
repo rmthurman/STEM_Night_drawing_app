@@ -7,11 +7,6 @@ from PIL import Image
 from io import BytesIO
 from dotenv import load_dotenv
 
-# This example requires environment variables named "OPEN_AI_KEY", "OPEN_AI_ENDPOINT" and "OPEN_AI_DEPLOYMENT_NAME"
-# Your endpoint should look like the following https://YOUR_OPEN_AI_RESOURCE_NAME.openai.azure.com/
-
-#retrieve the key and endpoint from the dotenv file
-
 load_dotenv()
 OPEN_AI_KEY=os.getenv("OPEN_AI_KEY")
 OPEN_AI_ENDPOINT=os.getenv("OPEN_AI_ENDPOINT")
