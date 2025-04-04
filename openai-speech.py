@@ -13,6 +13,7 @@ OPEN_AI_ENDPOINT=os.getenv("OPEN_AI_ENDPOINT")
 OPEN_AI_DEPLOYMENT_NAME=os.getenv("OPEN_AI_DEPLOYMENT_NAME")
 IMAGE_OPEN_AI_KEY=os.getenv("IMAGE_OPEN_AI_KEY")
 IMAGE_OPEN_AI_ENDPOINT=os.getenv("IMAGE_OPEN_AI_ENDPOINT")
+IMAGE_OPEN_AI_DEPLOYMENT_NAME=os.getenv("IMAGE_OPEN_AI_DEPLOYMENT_NAME")
 
 SPEECH_KEY=os.getenv("SPEECH_KEY")
 SPEECH_REGION=os.getenv("SPEECH_REGION")
@@ -58,7 +59,7 @@ def draw_image_with_openai(prompt):
 
     try:
         result = client.images.generate(
-            model="dall-e-3", # the name of your DALL-E 3 deployment
+            model=IMAGE_OPEN_AI_DEPLOYMENT_NAME, # the name of your DALL-E 3 deployment
             prompt=prompt, #A polar bear, synthwave style, digital painting
             n=1
         )
@@ -107,7 +108,7 @@ def ask_openai(prompt):
     tool_choice="auto")
 
     collected_messages = []
-    last_tts_request = None
+    #last_tts_request = None
 
     response_message = response.choices[0].message
     #we can inspect for filtering here
@@ -140,10 +141,10 @@ def ask_openai(prompt):
                     "content": function_response,
                 }
             )  # extend conversation with function response, 400 Error is here
-    #else:
-        #collected_messages.append(response_message)
+    else:
+        collected_messages.append(response_message)
         #speak the response message
-        #speech_synthesizer.speak_text(response_message.content)
+        speech_synthesizer.speak_text(response_message.content)
 
 # Continuously listens for speech input to recognize and send as text to Azure OpenAI
 def chat_with_open_ai():
@@ -162,7 +163,13 @@ def chat_with_open_ai():
                     break
                 
                 print("Recognized speech: {}".format(speech_recognition_result.text))
-                ask_openai(speech_recognition_result.text)
+                
+                try:
+                    ask_openai(speech_recognition_result.text)
+
+                except Exception as err:
+                    print("Encountered exception. {}".format(err))  # I want to catch the error and tell the user about it
+                    speech_synthesizer.speak_text("I am sorry but I cannot process your request. Please try again.")
                 
         except EOFError:
             break
@@ -172,3 +179,4 @@ try:
     chat_with_open_ai()
 except Exception as err:
     print("Encountered exception. {}".format(err))
+    #continue processing
